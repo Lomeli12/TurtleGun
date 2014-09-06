@@ -20,6 +20,7 @@ public class ClientProxy extends Proxy {
         super.preInit();
         if (TurtleGun.versionChecker.needUpdate())
             FMLCommonHandler.instance().bus().register(TurtleGun.versionChecker);
+        getModels();
     }
 
     @Override
@@ -33,5 +34,11 @@ public class ClientProxy extends Proxy {
     @Override
     public void postInit() {
         super.postInit();
+    }
+
+    public void getModels() {
+        ThreadModelDownloader downloader = new ThreadModelDownloader(TurtleGun.modelsFolder);
+        downloader.preCheck();
+        downloader.start();
     }
 }

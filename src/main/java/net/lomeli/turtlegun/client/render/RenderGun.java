@@ -2,7 +2,7 @@ package net.lomeli.turtlegun.client.render;
 
 import org.lwjgl.opengl.GL11;
 
-import java.io.InputStream;
+import java.io.File;
 
 import net.minecraft.item.ItemStack;
 
@@ -11,18 +11,17 @@ import net.minecraftforge.client.IItemRenderer;
 import net.lomeli.lomlib.client.render.RenderUtils;
 
 import net.lomeli.turtlegun.TurtleGun;
-import net.lomeli.turtlegun.client.model.ModelTurtle;
 import net.lomeli.turtlegun.client.techne.TC2Info;
 import net.lomeli.turtlegun.client.techne.model.ModelTechne2;
 
 public class RenderGun implements IItemRenderer {
 
     private ModelTechne2 gunModel;
+    public static File modelFile = new File(TurtleGun.modelsFolder, "ModelGun.tcn");
 
     public RenderGun() {
         try {
-            InputStream techneFile = TurtleGun.class.getResourceAsStream("../../../assets/turtlegun/models/ModelGun.tcn");
-            TC2Info tc2Info = TC2Info.readTechneFile(techneFile);
+            TC2Info tc2Info = TC2Info.readTechneFile(modelFile);
             gunModel = new ModelTechne2(tc2Info);
         } catch (Exception e) {
             TurtleGun.logger.logError("Failed to load model!");

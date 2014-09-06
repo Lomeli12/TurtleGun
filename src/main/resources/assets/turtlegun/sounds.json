@@ -2,7 +2,12 @@
   "turtleSong" : {
     "category": "player",
         "sounds": [
-          "turtle"
+          "turtle0",
+          "turtle1",
+          "turtle2",
+          "turtle3",
+          "turtle4",
+          "turtle5"
         ]
   }
 }

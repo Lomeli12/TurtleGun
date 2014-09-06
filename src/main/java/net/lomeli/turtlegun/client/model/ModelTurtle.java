@@ -15,8 +15,8 @@ public class ModelTurtle extends ModelBase {
     ModelRenderer leg3;
 
     public ModelTurtle() {
-        textureWidth = 128;
-        textureHeight = 64;
+        textureWidth = 64;
+        textureHeight = 32;
 
         shellBase = new ModelRenderer(this, 0, 0);
         shellBase.addBox(0F, 0.75F, 0F, 6, 2, 6);
@@ -92,13 +92,11 @@ public class ModelTurtle extends ModelBase {
 
     public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
         super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-        this.head.rotateAngleX = f4 / (180F / (float)Math.PI);
-        this.head.rotateAngleY = f3 / (180F / (float)Math.PI);
-        //this.shellBase.rotateAngleX = ((float)Math.PI / 2F);
-        //this.shellTop.rotateAngleX = ((float)Math.PI / 2F);
+        this.head.rotateAngleX = (f4 / (180F / (float) Math.PI)) / 2;
+        this.head.rotateAngleY = (f3 / (180F / (float) Math.PI)) / 2;
         this.leg0.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        this.leg1.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-        this.leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        this.leg1.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
+        this.leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         this.leg3.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
     }
 

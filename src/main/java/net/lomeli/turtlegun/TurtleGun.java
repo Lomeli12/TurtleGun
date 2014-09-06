@@ -1,5 +1,7 @@
 package net.lomeli.turtlegun;
 
+import java.io.File;
+
 import net.lomeli.turtlegun.core.Proxy;
 import net.lomeli.turtlegun.core.handler.ConfigHandler;
 import net.lomeli.turtlegun.core.handler.VersionChecker;
@@ -18,12 +20,14 @@ public class TurtleGun {
     public static LogHelper logger;
     public static VersionChecker versionChecker;
     public static ConfigHandler configHandler;
+    public static File modelsFolder;
 
     @SidedProxy(clientSide = ModLibs.CLIENT_PROXY, serverSide = ModLibs.PROXY)
     public static Proxy proxy;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        modelsFolder = new File(event.getModConfigurationDirectory().getParent(), "/" + ModLibs.MOD_ID);
         configHandler = new ConfigHandler(event.getSuggestedConfigurationFile());
         logger = new LogHelper(ModLibs.MOD_NAME);
         versionChecker = new VersionChecker();

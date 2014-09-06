@@ -29,7 +29,7 @@ public class ItemTurtleGun extends Item {
             if (entity != null) {
                 if (entity instanceof EntityPlayer) {
                     EntityPlayer player = (EntityPlayer) entity;
-                    if (stack.getItemDamage() == ModLibs.GUN_COOLDOWN && player.inventory.hasItem(ModItems.turtleShell)) {
+                    if (stack.getItemDamage() == ModLibs.GUN_COOLDOWN && (player.inventory.hasItem(ModItems.turtleShell) || player.capabilities.isCreativeMode)) {
                         if (!player.capabilities.isCreativeMode)
                             player.inventory.consumeInventoryItem(ModItems.turtleShell);
                         stack.setItemDamage(stack.getItemDamage() - 1);
@@ -53,9 +53,10 @@ public class ItemTurtleGun extends Item {
                 EntityTurtle turtle = new EntityTurtle(world);
                 turtle.setSprinting(true);
                 turtle.setPosition(player.posX + look.xCoord * 4.2, player.posY + look.yCoord + (player.getEyeHeight() / 2), player.posZ + look.zCoord * 4.2);
-                turtle.motionX = look.xCoord * 1;
-                turtle.motionY = look.yCoord * 1;
-                turtle.motionZ = look.zCoord * 1;
+                turtle.motionX = look.xCoord * 3;
+                turtle.motionY = look.yCoord * 3;
+                turtle.motionZ = look.zCoord * 3;
+                turtle.setWillBounce(player.isSneaking());
                 turtle.startExplosionCountDown();
                 world.spawnEntityInWorld(turtle);
                 world.playSoundAtEntity(player, ModLibs.MOD_ID + ":turtleSong", 1f, 1f);
