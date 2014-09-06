@@ -1,0 +1,17 @@
+item.turtlegun.gun.name=Turtle Gun
+item.turtlegun.shell.name=Turtle Shell
+item.turtlegun.shell.subtext=Hah, get it, a turtle §oSHELL§r.
+
+entity.turtlegun.turtle.name=Turtle
+
+update.turtlegun.message=An update for Turtle Gun is up for download! Check it out:
+update.turtlegun.old=Installed Version:
+update.turtlegun.new=New Version:
+
+config.turtlegun.cooldown=Cooldown time (in seconds) between each shot.
+config.turtlegun.timer=How many ticks (in seconds) pass until a turtle explodes.
+config.turtlegun.allowSpawn=Allow turtles to spawn.
+config.turtlegun.spawnRate=Rate at which turtle(s) will spawn.
+config.turtlegun.packSizeMin=Minimum amount of turtles to spawn in a pack.
+config.turtlegun.packSizeMax=Maximum amount of turtles to spawn in a pack.
+config.turtlegun.gunDropRate=Chances a turtle will drop a turtle gun on death.

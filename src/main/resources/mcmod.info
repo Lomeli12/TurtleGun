@@ -1,0 +1,14 @@
+[
+{
+  "modid": "turtlegun",
+  "name": "Turtle Gun",
+  "description": "Because why not?",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://www.lomeli12.net/",
+  "updateUrl": "",
+  "authorList": ["Lomeli12"],
+  "screenshots": [],
+  "dependencies": []
+}
+]
