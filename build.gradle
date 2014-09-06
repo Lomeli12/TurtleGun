@@ -64,5 +64,6 @@ processResources {
 }
 
 jar {
-	appendix = "universal-$mcVersion"
+	appendix = "$mcVersion"
+    classifier = "universal"
 }

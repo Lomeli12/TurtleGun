@@ -2,6 +2,7 @@ package net.lomeli.turtlegun;
 
 import java.io.File;
 
+import net.lomeli.turtlegun.core.CreativeTurtle;
 import net.lomeli.turtlegun.core.Proxy;
 import net.lomeli.turtlegun.core.handler.ConfigHandler;
 import net.lomeli.turtlegun.core.handler.VersionChecker;
@@ -17,6 +18,7 @@ import net.lomeli.lomlib.util.LogHelper;
 
 @Mod(modid = ModLibs.MOD_ID, name = ModLibs.MOD_NAME, version = ModLibs.VERSION, dependencies = "required-after:LomLib;", guiFactory = "net.lomeli.turtlegun.core.TurtleFactory")
 public class TurtleGun {
+    public static CreativeTurtle turtleTab = new CreativeTurtle();
     public static LogHelper logger;
     public static VersionChecker versionChecker;
     public static ConfigHandler configHandler;
@@ -37,10 +39,5 @@ public class TurtleGun {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init();
-    }
-
-    @Mod.EventHandler
-    public void postInt(FMLPostInitializationEvent event) {
-        proxy.postInit();
     }
 }

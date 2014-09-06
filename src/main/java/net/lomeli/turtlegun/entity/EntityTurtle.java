@@ -59,7 +59,7 @@ public class EntityTurtle extends EntityAnimal {
     public void onLivingUpdate() {
         super.onLivingUpdate();
         if (this.isInWater())
-            this.motionY += 0.75f;
+            this.motionY += 0.5f;
     }
 
     @Override

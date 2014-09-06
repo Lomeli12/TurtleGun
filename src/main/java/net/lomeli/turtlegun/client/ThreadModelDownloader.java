@@ -13,7 +13,7 @@ public class ThreadModelDownloader extends Thread {
     public boolean needToDownload;
 
     public ThreadModelDownloader(File modelFolder) {
-        this.needToDownload = true;
+        this.needToDownload = false;
         this.modelFolder = modelFolder;
 
         this.setName("Techne Model Downloader");
@@ -55,7 +55,6 @@ public class ThreadModelDownloader extends Thread {
         con.setReadTimeout(15000);
         DataInputStream var6 = new DataInputStream(con.getInputStream());
         DataOutputStream var7 = new DataOutputStream(new FileOutputStream(par2File));
-        boolean var8 = false;
         while (true) {
             int var9;
             if ((var9 = var6.read(var5)) < 0) {

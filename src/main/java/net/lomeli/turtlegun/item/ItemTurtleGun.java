@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+import net.lomeli.turtlegun.TurtleGun;
 import net.lomeli.turtlegun.entity.EntityTurtle;
 import net.lomeli.turtlegun.lib.ModLibs;
 
@@ -17,7 +18,6 @@ public class ItemTurtleGun extends Item {
         super();
         this.setUnlocalizedName(ModLibs.MOD_ID.toLowerCase() + ".gun");
         this.setMaxStackSize(1);
-        this.setCreativeTab(CreativeTabs.tabCombat);
         this.setFull3D();
         this.setTextureName(ModLibs.MOD_ID.toLowerCase() + ":turtleGun");
 
@@ -95,5 +95,8 @@ public class ItemTurtleGun extends Item {
         return stack.getItemDamage() > 0;
     }
 
-
+    @Override
+    public CreativeTabs[] getCreativeTabs() {
+        return new CreativeTabs[] { CreativeTabs.tabCombat, TurtleGun.turtleTab };
+    }
 }

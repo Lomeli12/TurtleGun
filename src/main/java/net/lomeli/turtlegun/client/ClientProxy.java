@@ -31,11 +31,6 @@ public class ClientProxy extends Proxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityTurtle.class, new RenderTurtle());
     }
 
-    @Override
-    public void postInit() {
-        super.postInit();
-    }
-
     public void getModels() {
         ThreadModelDownloader downloader = new ThreadModelDownloader(TurtleGun.modelsFolder);
         downloader.preCheck();
