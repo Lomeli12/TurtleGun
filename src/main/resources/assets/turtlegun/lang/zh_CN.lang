@@ -1,0 +1,22 @@
+itemGroup.turtlegun.tab=乌龟爆破枪
+
+item.turtlegun.gun.name=乌龟爆破枪
+item.turtlegun.shell.name=龟壳
+item.turtlegun.shell.subtext=哈, 明白了, 这是一个§o龟壳§r
+item.turtlegun.gunParts.0.name=枪托
+item.turtlegun.gunParts.1.name=扳机
+item.turtlegun.gunParts.2.name=枪筒
+
+entity.turtlegun.turtle.name=乌龟
+
+update.turtlegun.message=乌龟爆破枪模组可以更新至最新版本! 下载地址:
+update.turtlegun.old=目前版本:
+update.turtlegun.new=最新版本:
+
+config.turtlegun.cooldown=乌龟爆破枪每次射击的冷却时间 (秒)
+config.turtlegun.timer=发射出去的乌龟会在多少时间后爆炸(秒)
+config.turtlegun.allowSpawn=允许乌龟生成
+config.turtlegun.spawnRate=乌龟生成几率
+config.turtlegun.packSizeMin=乌龟在团体中生成的最少数量
+config.turtlegun.packSizeMax=乌龟在团体中生成的最大数量
+config.turtlegun.gunDropRate=设定乌龟被杀死后是否能掉落乌龟爆破枪
