@@ -9,11 +9,14 @@ import net.minecraftforge.common.BiomeDictionary;
 
 import cpw.mods.fml.common.registry.EntityRegistry;
 
+import net.lomeli.turtlegun.TurtleGun;
 import net.lomeli.turtlegun.lib.ModLibs;
 
 public class ModEntities {
     public static void loadEntities() {
         registerEntity(EntityTurtle.class, "turtlegun.turtle", 0x91671D, 894731);
+        registerEntity(EntityAggressiveTurtle.class, "turtlegun.Angryturtle", 0x91671D, 0xFF0000);
+        EntityRegistry.registerModEntity(EntityTurtleMeat.class, "turtlegun.turtleBomb", EntityRegistry.findGlobalUniqueEntityId(), TurtleGun.instance, 64, 1, true);
         addOverWorldSpawn(EntityTurtle.class, ModLibs.SPAWN_RATE, ModLibs.PACK_SIZE_MIN, ModLibs.PACK_SIZE_MAX, EnumCreatureType.creature, BiomeDictionary.Type.BEACH, BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.OCEAN, BiomeDictionary.Type.RIVER, BiomeDictionary.Type.SWAMP, BiomeDictionary.Type.WATER, BiomeDictionary.Type.WET);
     }
 

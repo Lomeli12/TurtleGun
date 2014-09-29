@@ -16,8 +16,8 @@ import net.lomeli.turtlegun.client.techne.model.ModelTechne2;
 
 public class RenderGun implements IItemRenderer {
 
-    private ModelTechne2 gunModel;
     public static File modelFile = new File(TurtleGun.modelsFolder, "ModelGun.tcn");
+    private ModelTechne2 gunModel;
 
     public RenderGun() {
         try {

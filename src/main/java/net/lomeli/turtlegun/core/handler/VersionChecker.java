@@ -100,7 +100,7 @@ public class VersionChecker {
         if (needUpdate() && event.phase == TickEvent.Phase.END && Minecraft.getMinecraft().thePlayer != null && !doneTelling) {
             EntityPlayer player = Minecraft.getMinecraft().thePlayer;
             if (!version.isEmpty() && player != null) {
-                player.addChatMessage(new ChatComponentTranslation(ModLibs.UPDATE_MESSAGE + " " +downloadURL));
+                player.addChatMessage(new ChatComponentTranslation(ModLibs.UPDATE_MESSAGE + " " + downloadURL));
                 player.addChatMessage(new ChatComponentText(translate(ModLibs.OLD_VERSION) + " " + ModLibs.VERSION));
                 player.addChatMessage(new ChatComponentText(translate(ModLibs.NEW_VERSION) + " " + version));
                 doneTelling = true;

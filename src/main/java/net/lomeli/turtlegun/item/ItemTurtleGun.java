@@ -66,12 +66,16 @@ public class ItemTurtleGun extends Item {
     }
 
     @Override
-    public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
-        return true;
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+        if (!world.isRemote) {
+            if (stack.getItemDamage() == 0)
+                return true;
+        }
+        return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
     }
 
     @Override
-    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+    public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
         return true;
     }
 
@@ -97,6 +101,6 @@ public class ItemTurtleGun extends Item {
 
     @Override
     public CreativeTabs[] getCreativeTabs() {
-        return new CreativeTabs[] { CreativeTabs.tabCombat, TurtleGun.turtleTab };
+        return new CreativeTabs[]{CreativeTabs.tabCombat, TurtleGun.turtleTab};
     }
 }

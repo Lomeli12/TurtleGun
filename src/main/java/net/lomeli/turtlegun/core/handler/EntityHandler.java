@@ -19,5 +19,4 @@ public class EntityHandler {
                 ((EntityTurtle) event.entityLiving).setCustomNameTag(turtleNames[rand.nextInt(turtleNames.length)]);
         }
     }
-
 }

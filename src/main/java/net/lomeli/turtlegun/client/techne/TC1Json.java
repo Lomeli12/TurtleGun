@@ -8,70 +8,6 @@ import com.google.gson.annotations.SerializedName;
 public class TC1Json {
     public Techne Techne = new Techne();
 
-    public class Techne {
-        @SerializedName("@Version")
-        public String Version = "2.2";
-        public String Author = "NotZeuX";
-        public String Name = "";
-        public String PreviewImage = "";
-        public String ProjectName = "";
-        public String ProjectType = "";
-        public String Description = "";
-        public String DateCreated = "";
-        public Model[] Models = new Model[]{};
-    }
-
-    public class Model {
-        public ModelInfo Model = new ModelInfo();
-    }
-
-    public class ModelInfo {
-        public String GlScale = "1,1,1";
-        public String Name = "";
-        public String TextureSize = "64,32";
-        @SerializedName("@texture")
-        public String texture = "texture.png";
-        public String BaseClass = "ModelBase";
-        public Group Geometry = new Group();
-    }
-
-    public class Group {
-        public Shape[] Shape = new Shape[]{};
-        public Null[] Folder = new Null[]{};
-    }
-
-    public class Shape {
-        @SerializedName("@type")
-        public String Type = "d9e621f7-957f-4b77-b1ae-20dcd0da7751";
-        @SerializedName("@name")
-        public String Name = "new cube";
-        public Animation Animation = new Animation();
-        public String IsDecorative = "False";
-        public String IsFixed = "False";
-        public String IsMirrored = "False";
-        public String Position = "0,0,0";
-        public String Offset = "0,0,0";
-        public String Rotation = "0,0,0";
-        public String Size = "1,1,1";
-        public String TextureOffset = "0,0";
-    }
-
-    public class Animation {
-        public String AnimationAngles = "0,0,0";
-        public String AnimationDuration = "0,0,0";
-        public String AnimationType = "0,0,0";
-    }
-
-    public class Null {
-        @SerializedName("@type")
-        public String Type = "3b3bb6e5-2f8b-4bbd-8dbb-478b67762fd0";
-        @SerializedName("@Name")
-        public String Name = "null element";
-
-        public Shape[] Shape = new Shape[]{};
-        public Null[] Folder = new Null[]{};
-    }
-
     public TC2Info toTC2Info() {
         TC2Info info = new TC2Info();
 
@@ -153,5 +89,69 @@ public class TC1Json {
             tc2Null.Children.Shape[j].TextureOffset = tc1Null.Shape[j].TextureOffset;
         }
         return id;
+    }
+
+    public class Techne {
+        @SerializedName("@Version")
+        public String Version = "2.2";
+        public String Author = "NotZeuX";
+        public String Name = "";
+        public String PreviewImage = "";
+        public String ProjectName = "";
+        public String ProjectType = "";
+        public String Description = "";
+        public String DateCreated = "";
+        public Model[] Models = new Model[]{};
+    }
+
+    public class Model {
+        public ModelInfo Model = new ModelInfo();
+    }
+
+    public class ModelInfo {
+        public String GlScale = "1,1,1";
+        public String Name = "";
+        public String TextureSize = "64,32";
+        @SerializedName("@texture")
+        public String texture = "texture.png";
+        public String BaseClass = "ModelBase";
+        public Group Geometry = new Group();
+    }
+
+    public class Group {
+        public Shape[] Shape = new Shape[]{};
+        public Null[] Folder = new Null[]{};
+    }
+
+    public class Shape {
+        @SerializedName("@type")
+        public String Type = "d9e621f7-957f-4b77-b1ae-20dcd0da7751";
+        @SerializedName("@name")
+        public String Name = "new cube";
+        public Animation Animation = new Animation();
+        public String IsDecorative = "False";
+        public String IsFixed = "False";
+        public String IsMirrored = "False";
+        public String Position = "0,0,0";
+        public String Offset = "0,0,0";
+        public String Rotation = "0,0,0";
+        public String Size = "1,1,1";
+        public String TextureOffset = "0,0";
+    }
+
+    public class Animation {
+        public String AnimationAngles = "0,0,0";
+        public String AnimationDuration = "0,0,0";
+        public String AnimationType = "0,0,0";
+    }
+
+    public class Null {
+        @SerializedName("@type")
+        public String Type = "3b3bb6e5-2f8b-4bbd-8dbb-478b67762fd0";
+        @SerializedName("@Name")
+        public String Name = "null element";
+
+        public Shape[] Shape = new Shape[]{};
+        public Null[] Folder = new Null[]{};
     }
 }

@@ -12,7 +12,7 @@ import net.lomeli.turtlegun.entity.ModEntities;
 import net.lomeli.turtlegun.item.ModItems;
 
 public class Proxy {
-    public void preInit(){
+    public void preInit() {
         TurtleGun.versionChecker.checkForUpdates();
         TurtleGun.configHandler.updateConfig();
         FMLCommonHandler.instance().bus().register(TurtleGun.configHandler);
@@ -22,7 +22,7 @@ public class Proxy {
         ModItems.loadItems();
     }
 
-    public void init(){
+    public void init() {
         ModEntities.loadEntities();
         MinecraftForge.EVENT_BUS.register(new EntityHandler());
     }

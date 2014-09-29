@@ -10,6 +10,8 @@ public class ModLibs {
     public static final String CLIENT_PROXY = PACKAGE_PATH + "client.ClientProxy";
     public static final String PROXY = PACKAGE_PATH + "core.Proxy";
 
+    public static final String MODEL_URL = "https://raw.githubusercontent.com/Lomeli12/TurtleGun/master/src/main/resources/assets/turtlegun/models/ModelGun.tcn";
+
     private static final String UPDATE = "update.turtlegun.";
     public static final String UPDATE_MESSAGE = UPDATE + "message";
     public static final String OLD_VERSION = UPDATE + "old";
@@ -22,6 +24,5 @@ public class ModLibs {
     public static int PACK_SIZE_MIN = 1;
     public static int PACK_SIZE_MAX = 7;
     public static int GUN_DROP_RATE = 35;
-
-    public static final String MODEL_URL = "https://raw.githubusercontent.com/Lomeli12/TurtleGun/master/src/main/resources/assets/turtlegun/models/ModelGun.tcn";
+    public static int TURTLE_BOMB_SPAWN = 4;
 }

@@ -138,17 +138,17 @@ public class ModelTechne2 extends ModelBase {
         populateGroup(model, type, info.Children, component.groupModels);
     }
 
-    public static enum EnumGroupType {
-        NONE,
-        CIRCULAR,
-        LINEAR
-    }
-
     public void render(boolean bindTexture, float f5) {
         for (int i = modelParts.size() - 1; i >= 0; i--) {
             ModelPart modelPart = modelParts.get(i);
             if (!modelPart.render(bindTexture, f5))
                 modelParts.remove(i);
         }
+    }
+
+    public static enum EnumGroupType {
+        NONE,
+        CIRCULAR,
+        LINEAR
     }
 }

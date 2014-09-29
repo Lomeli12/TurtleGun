@@ -35,6 +35,7 @@ public class ConfigHandler {
         ModLibs.PACK_SIZE_MAX = setGetInt(cat, "packSizeMax", ModLibs.PACK_SIZE_MAX, 1, Integer.MAX_VALUE, "config.turtlegun.packSizeMax");
 
         ModLibs.GUN_DROP_RATE = setGetInt(cat, "gunDropRate", ModLibs.GUN_DROP_RATE, 0, 1000, "config.turtlegun.gunDropRate");
+        ModLibs.TURTLE_BOMB_SPAWN = setGetInt(cat, "turtleBombSpawn", ModLibs.TURTLE_BOMB_SPAWN, 1, 1000, "config.turtlegun.turtleBombSpawn");
 
         if (this.config.hasChanged())
             this.config.save();

@@ -34,113 +34,6 @@ public class TC2Info {
 
     public transient boolean tampered;
 
-    public class Techne {
-        @SerializedName("@Version")
-        public String Version = "2.2";
-        public String Author = "NotZeuX";
-        public String Name = "";
-        public String PreviewImage = "";
-        public String ProjectName = "";
-        public String ProjectType = "";
-        public String Description = "";
-        public String DateCreated = "";
-        public Model[] Models = new Model[]{};
-
-        private String _comment = "Generated using iChunUtil";
-
-        public void createNewModelArray(int size) {
-            Models = new Model[size];
-            for (int i = 0; i < Models.length; i++) {
-                Models[i] = new Model();
-            }
-        }
-    }
-
-    public class Model {
-        public ModelInfo Model = new ModelInfo();
-    }
-
-    public class ModelInfo {
-        public String GlScale = "1,1,1";
-        public String Name = "";
-        public String TextureSize = "64,32";
-        @SerializedName("@texture")
-        public String texture = "texture.png";
-        public String BaseClass = "ModelBase";
-        public Group Geometry = new Group();
-
-        public transient BufferedImage image;
-    }
-
-    public class Group {
-        public Circular[] Circular = new Circular[]{};
-        public Shape[] Shape = new Shape[]{};
-        public Linear[] Linear = new Linear[]{};
-        public Null[] Null = new Null[]{};
-
-        public void createNewShapeArray(int size) {
-            Shape = new Shape[size];
-            for (int i = 0; i < Shape.length; i++) {
-                Shape[i] = new Shape();
-            }
-        }
-
-        public void extendNullArray() {
-            Null[] nulls = new Null[Null.length + 1];
-            for (int i = 0; i < Null.length; i++) {
-                nulls[i] = Null[i];
-            }
-            nulls[Null.length] = new Null();
-            Null = nulls;
-        }
-    }
-
-    public class Circular extends Null {
-        {
-            Type = "16932820-ef7c-4b4b-bf05-b72063b3d23c";
-            Name = "Circular Array";
-        }
-
-        public int Count = 5;
-        public int Radius = 16;
-    }
-
-    public class Shape {
-        public int Id = 1; //is a variable
-        @SerializedName("@Type")
-        public String Type = "d9e621f7-957f-4b77-b1ae-20dcd0da7751";
-        @SerializedName("@Name")
-        public String Name = "new cube";
-        public String IsDecorative = "False";
-        public String IsFixed = "False";
-        public String IsMirrored = "False";
-        public String Position = "0,0,0";
-        public String Offset = "0,0,0";
-        public String Rotation = "0,0,0";
-        public String Size = "1,1,1";
-        public String TextureOffset = "0,0";
-    }
-
-    public class Linear extends Null {
-        {
-            Type = "fc4f63c9-8296-4c97-abd8-414f20e49bd5";
-            Name = "Linear Array";
-        }
-
-        public String Count = "0,0,0";
-        public String Spacing = "0,0,0";
-    }
-
-    public class Null {
-        @SerializedName("@Type")
-        public String Type = "3b3bb6e5-2f8b-4bbd-8dbb-478b67762fd0";
-        @SerializedName("@Name")
-        public String Name = "null element";
-        public String Position = "0,0,0";
-        public String Rotation = "0,0,0";
-        public Group Children = new Group();
-    }
-
     /**
      * Returns a TC2Info file from a Techne save file. Works for Techne 1 and 2. TC2Info is a Techne 2 file format, Techne 1 saves will be converted to this format.
      *
@@ -489,5 +382,112 @@ public class TC2Info {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public class Techne {
+        @SerializedName("@Version")
+        public String Version = "2.2";
+        public String Author = "NotZeuX";
+        public String Name = "";
+        public String PreviewImage = "";
+        public String ProjectName = "";
+        public String ProjectType = "";
+        public String Description = "";
+        public String DateCreated = "";
+        public Model[] Models = new Model[]{};
+
+        private String _comment = "Generated using iChunUtil";
+
+        public void createNewModelArray(int size) {
+            Models = new Model[size];
+            for (int i = 0; i < Models.length; i++) {
+                Models[i] = new Model();
+            }
+        }
+    }
+
+    public class Model {
+        public ModelInfo Model = new ModelInfo();
+    }
+
+    public class ModelInfo {
+        public String GlScale = "1,1,1";
+        public String Name = "";
+        public String TextureSize = "64,32";
+        @SerializedName("@texture")
+        public String texture = "texture.png";
+        public String BaseClass = "ModelBase";
+        public Group Geometry = new Group();
+
+        public transient BufferedImage image;
+    }
+
+    public class Group {
+        public Circular[] Circular = new Circular[]{};
+        public Shape[] Shape = new Shape[]{};
+        public Linear[] Linear = new Linear[]{};
+        public Null[] Null = new Null[]{};
+
+        public void createNewShapeArray(int size) {
+            Shape = new Shape[size];
+            for (int i = 0; i < Shape.length; i++) {
+                Shape[i] = new Shape();
+            }
+        }
+
+        public void extendNullArray() {
+            Null[] nulls = new Null[Null.length + 1];
+            for (int i = 0; i < Null.length; i++) {
+                nulls[i] = Null[i];
+            }
+            nulls[Null.length] = new Null();
+            Null = nulls;
+        }
+    }
+
+    public class Circular extends Null {
+        {
+            Type = "16932820-ef7c-4b4b-bf05-b72063b3d23c";
+            Name = "Circular Array";
+        }
+
+        public int Count = 5;
+        public int Radius = 16;
+    }
+
+    public class Shape {
+        public int Id = 1; //is a variable
+        @SerializedName("@Type")
+        public String Type = "d9e621f7-957f-4b77-b1ae-20dcd0da7751";
+        @SerializedName("@Name")
+        public String Name = "new cube";
+        public String IsDecorative = "False";
+        public String IsFixed = "False";
+        public String IsMirrored = "False";
+        public String Position = "0,0,0";
+        public String Offset = "0,0,0";
+        public String Rotation = "0,0,0";
+        public String Size = "1,1,1";
+        public String TextureOffset = "0,0";
+    }
+
+    public class Linear extends Null {
+        {
+            Type = "fc4f63c9-8296-4c97-abd8-414f20e49bd5";
+            Name = "Linear Array";
+        }
+
+        public String Count = "0,0,0";
+        public String Spacing = "0,0,0";
+    }
+
+    public class Null {
+        @SerializedName("@Type")
+        public String Type = "3b3bb6e5-2f8b-4bbd-8dbb-478b67762fd0";
+        @SerializedName("@Name")
+        public String Name = "null element";
+        public String Position = "0,0,0";
+        public String Rotation = "0,0,0";
+        public Group Children = new Group();
     }
 }

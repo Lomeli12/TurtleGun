@@ -16,7 +16,7 @@ public class ThreadModelDownloader extends Thread {
         this.needToDownload = false;
         this.modelFolder = modelFolder;
 
-        this.setName("Techne Model Downloader");
+        this.setName("Turtle Gun Asset Downloader");
         this.setDaemon(true);
     }
 

@@ -10,8 +10,11 @@ import net.lomeli.turtlegun.TurtleGun;
 import net.lomeli.turtlegun.client.render.RenderGun;
 import net.lomeli.turtlegun.client.render.RenderPlayerHandler;
 import net.lomeli.turtlegun.client.render.RenderTurtle;
+import net.lomeli.turtlegun.client.render.RenderTurtleMeat;
 import net.lomeli.turtlegun.core.Proxy;
+import net.lomeli.turtlegun.entity.EntityAggressiveTurtle;
 import net.lomeli.turtlegun.entity.EntityTurtle;
+import net.lomeli.turtlegun.entity.EntityTurtleMeat;
 import net.lomeli.turtlegun.item.ModItems;
 
 public class ClientProxy extends Proxy {
@@ -28,7 +31,10 @@ public class ClientProxy extends Proxy {
         super.init();
         MinecraftForgeClient.registerItemRenderer(ModItems.turtleGun, new RenderGun());
         MinecraftForge.EVENT_BUS.register(new RenderPlayerHandler());
-        RenderingRegistry.registerEntityRenderingHandler(EntityTurtle.class, new RenderTurtle());
+        RenderTurtle renderTurtle = new RenderTurtle();
+        RenderingRegistry.registerEntityRenderingHandler(EntityTurtle.class, renderTurtle);
+        RenderingRegistry.registerEntityRenderingHandler(EntityAggressiveTurtle.class, renderTurtle);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTurtleMeat.class, new RenderTurtleMeat());
     }
 
     public void getModels() {
