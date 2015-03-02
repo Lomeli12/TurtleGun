@@ -24,7 +24,6 @@ public class EntityTurtle extends EntityAnimal {
     public EntityTurtle(World world) {
         super(world);
         this.setSize(0.5F, 0.4F);
-
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
         this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
@@ -53,13 +52,6 @@ public class EntityTurtle extends EntityAnimal {
         this.dataWatcher.addObject(17, new Byte((byte) 0));
         this.dataWatcher.addObject(18, new Integer(0));
         this.dataWatcher.addObject(19, new Byte((byte) 0));
-    }
-
-    @Override
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
-        if (this.isInWater())
-            this.motionY += 0.5f;
     }
 
     @Override

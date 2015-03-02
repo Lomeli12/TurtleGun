@@ -18,7 +18,7 @@ import net.lomeli.turtlegun.entity.EntityAggressiveTurtle;
 import net.lomeli.turtlegun.entity.EntityTurtle;
 
 public class EntityHandler {
-    private String[] turtleNames = {"Yoshi", "Crash", "Shelly", "Why?!", "OMG TURTLE <3", "Leonardo",
+    private String[] turtleNames = {"Yoshi", "Crash", "Shelly", "Why?!", "OMG TURTLE <3", "Leonardo", "Ghost Turtle",
             "Michelangelo", "Raphael", "Donatello", "I'm really a pig", "Mine", "Feed me!", "forsinain42",
             "da haxor 4chan", "Penguin Turtle", "Mj11jM", "Cthulhu", "bill", "bob", "jeb", "rawr", "My name Jeff!",
             "Blue and Black", "White and Gold", "Puncake", "King of Sweden!", "Fernando", "Maes Hughes", "JadedTurtle"};
@@ -27,7 +27,7 @@ public class EntityHandler {
     public void onSpawnEvent(LivingSpawnEvent event) {
         Random rand = event.world.rand;
         if (event.entityLiving != null && (event.entityLiving instanceof EntityTurtle || event.entityLiving instanceof EntityAggressiveTurtle)) {
-            if (rand.nextInt(100) < 5)
+            if (rand.nextInt(100) < 15)
                 event.entityLiving.setCustomNameTag(turtleNames[rand.nextInt(turtleNames.length)]);
         }
     }

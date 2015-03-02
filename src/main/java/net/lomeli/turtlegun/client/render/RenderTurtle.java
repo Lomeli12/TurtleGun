@@ -3,6 +3,7 @@ package net.lomeli.turtlegun.client.render;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -16,6 +17,7 @@ import net.lomeli.turtlegun.lib.ModLibs;
 public class RenderTurtle extends RenderLiving {
     private final ResourceLocation turtleTexture = new ResourceLocation(ModLibs.MOD_ID + ":models/turtle.png");
     private final ResourceLocation penguinTurtle = new ResourceLocation(ModLibs.MOD_ID + ":models/penguin.png");
+    private final ResourceLocation jadedTurtle = new ResourceLocation(ModLibs.MOD_ID + ":models/jaded.png");
 
     public RenderTurtle() {
         super(Minecraft.getMinecraft().getRenderManager(), new ModelTurtle(), 1f);
@@ -26,22 +28,32 @@ public class RenderTurtle extends RenderLiving {
     protected void preRenderCallback(EntityLivingBase entity, float tick) {
         super.preRenderCallback(entity, tick);
         if (entity instanceof EntityAggressiveTurtle)
-            GL11.glColor4f(0.75f, 0f, 0f, 1f);
-        if (entity.getDisplayName().getUnformattedText().equalsIgnoreCase("JadedTurtle"))
-            GL11.glColor4f(1f, 0f, 1f, 1f);
+            GlStateManager.color(0.75f, 0f, 0f, 1f);
     }
 
     @Override
-    public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
-        super.doRender(p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
-        GL11.glColor4f(1f, 1f, 1f, 1f);
+    public void doRender(Entity entity, double x, double y, double z, float f, float partialTicks) {
+        if (entity.hasCustomName() && entity.getCustomNameTag().equals("Ghost Turtle")) {
+            GlStateManager.pushMatrix();
+            GlStateManager.enableBlend();
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager.color(1, 1, 1, 0.3f);
+        }
+        super.doRender(entity, x, y, z, f, partialTicks);
+        GlStateManager.color(1f, 1f, 1f, 1f);
+        if (entity.hasCustomName() && entity.getCustomNameTag().equals("Ghost Turtle")) {
+            GlStateManager.disableBlend();
+            GlStateManager.popMatrix();
+        }
     }
 
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
-        if (entity instanceof EntityLiving) {
-            if (entity.hasCustomName() && entity.getCustomNameTag().equals("Penguin Turtle"))
+        if (entity instanceof EntityLiving && entity.hasCustomName()) {
+            if (entity.getCustomNameTag().equals("Penguin Turtle"))
                 return penguinTurtle;
+            if (entity.getCustomNameTag().equals("JadedTurtle"))
+                return jadedTurtle;
         }
         return turtleTexture;
     }
