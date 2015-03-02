@@ -46,9 +46,9 @@ archivesBaseName = "$modName"
 version = "$releaseVersion"
 
 minecraft {
-    version = "$mcVersion-$forgeVersion-$mcVersion" // grab latest forge
+    version = "$mcVersion-$forgeVersion" // grab latest forge
     runDir = "eclipse"
-    mappings = "snapshot_nodoc_20141130"
+    mappings = "snapshot_20141130"
 }
 
 processResources {
