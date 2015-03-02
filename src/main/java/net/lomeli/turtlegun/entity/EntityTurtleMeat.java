@@ -16,18 +16,24 @@ public class EntityTurtleMeat extends EntityThrowable {
         super(world, entity);
     }
 
+    public EntityTurtleMeat(World world, double x, double y, double z) {
+        super(world, x, y, z);
+    }
+
     @Override
     protected void onImpact(MovingObjectPosition pos) {
-        if (!this.worldObj.isRemote) {
+        if (!this.worldObj.isRemote && pos != null && pos.getBlockPos() != null) {
             for (int i = 0; i < ModLibs.TURTLE_BOMB_SPAWN; i++) {
                 EntityAggressiveTurtle turtle = new EntityAggressiveTurtle(worldObj);
-                turtle.setPositionAndUpdate(pos.blockX, pos.blockY, pos.blockZ);
-                turtle.motionX += (rand.nextFloat() * (rand.nextBoolean() ? 1 : -1));
-                turtle.motionY += (rand.nextFloat() * (rand.nextBoolean() ? 1 : -1));
-                turtle.motionZ += (rand.nextFloat() * (rand.nextBoolean() ? 1 : -1));
-                if (this.getThrower() != null)
-                    turtle.setSummoner(this.getThrower());
-                this.worldObj.spawnEntityInWorld(turtle);
+                if (turtle != null) {
+                    turtle.setPositionAndUpdate(pos.getBlockPos().getX(), pos.getBlockPos().getY(), pos.getBlockPos().getZ());
+                    turtle.motionX += rand.nextFloat() * (rand.nextBoolean() ? 1 : -1);
+                    turtle.motionY += rand.nextFloat() * (rand.nextBoolean() ? 1 : -1);
+                    turtle.motionZ += rand.nextFloat() * (rand.nextBoolean() ? 1 : -1);
+                    if (this.getThrower() != null)
+                        turtle.setSummoner(this.getThrower());
+                    this.worldObj.spawnEntityInWorld(turtle);
+                }
             }
         }
     }

@@ -15,14 +15,14 @@ buildscript {
     }
 }
 
+apply plugin: 'forge'
+
 repositories {
     maven {
         name = 'Lomeli Repo'
         url = "http://lomeli12.net/maven/"
     }
 }
-
-apply plugin: "forge"
 
 def loadProperties(String sourceFileName) {
     def config = new Properties()
@@ -46,8 +46,9 @@ archivesBaseName = "$modName"
 version = "$releaseVersion"
 
 minecraft {
-    version = "$mcVersion-$forgeVersion" // grab latest forge
-    runDir = "build/vanilla/assets"
+    version = "$mcVersion-$forgeVersion-$mcVersion" // grab latest forge
+    runDir = "eclipse"
+    mappings = "snapshot_nodoc_20141130"
 }
 
 processResources {

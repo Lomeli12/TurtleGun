@@ -1,10 +1,16 @@
 package net.lomeli.turtlegun.client;
 
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.item.Item;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import net.lomeli.lomlib.client.BasicItemMesh;
+import net.lomeli.lomlib.client.models.RendererRegistry;
 
 import net.lomeli.turtlegun.TurtleGun;
 import net.lomeli.turtlegun.client.render.RenderGun;
@@ -21,25 +27,37 @@ public class ClientProxy extends Proxy {
     @Override
     public void preInit() {
         super.preInit();
-        if (TurtleGun.versionChecker.needUpdate())
-            FMLCommonHandler.instance().bus().register(TurtleGun.versionChecker);
-        getModels();
     }
 
     @Override
     public void init() {
         super.init();
-        MinecraftForgeClient.registerItemRenderer(ModItems.turtleGun, new RenderGun());
-        MinecraftForge.EVENT_BUS.register(new RenderPlayerHandler());
+
+        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(ModItems.turtleGun, new BasicItemMesh("turtleGun:turtleGun"));
+        registerModel(ModItems.turtleShell, 0, "turtleGun:turtleShell");
+        registerModel(ModItems.turtleMeat, 0, "turtleGun:turtleMeat");
+        registerModel(ModItems.gunParts, 0, "turtleGun:turtleGunPart");
+        registerModel(ModItems.gunParts, 1, "turtleGun:turtleGunPart1");
+        registerModel(ModItems.gunParts, 2, "turtleGun:turtleGunPart2");
+        registerMetadataModel(ModItems.gunParts, "turtleGun:turtleGunPart", "turtleGun:turtleGunPart1", "turtleGun:turtleGunPart2");
+
+        RenderPlayerHandler handler = new RenderPlayerHandler();
+        MinecraftForge.EVENT_BUS.register(handler);
+        FMLCommonHandler.instance().bus().register(handler);
+        FMLCommonHandler.instance().bus().register(TurtleGun.configHandler);
+
         RenderTurtle renderTurtle = new RenderTurtle();
         RenderingRegistry.registerEntityRenderingHandler(EntityTurtle.class, renderTurtle);
         RenderingRegistry.registerEntityRenderingHandler(EntityAggressiveTurtle.class, renderTurtle);
         RenderingRegistry.registerEntityRenderingHandler(EntityTurtleMeat.class, new RenderTurtleMeat());
+        RendererRegistry.instance().addItemRenderer(new RenderGun(), ModItems.turtleGun);
     }
 
-    public void getModels() {
-        ThreadModelDownloader downloader = new ThreadModelDownloader(TurtleGun.modelsFolder);
-        downloader.preCheck();
-        downloader.start();
+    private void registerMetadataModel(Item item, String... files) {
+        ModelBakery.addVariantName(item, files);
+    }
+
+    private void registerModel(Item item, int metaData, String name) {
+        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, metaData, new ModelResourceLocation(name, "inventory"));
     }
 }

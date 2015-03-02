@@ -8,8 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import net.lomeli.turtlegun.TurtleGun;
 import net.lomeli.turtlegun.entity.EntityTurtleMeat;
@@ -18,9 +18,9 @@ import net.lomeli.turtlegun.lib.ModLibs;
 public class ItemTurtleMeat extends ItemFood {
     public ItemTurtleMeat() {
         super(3, 0.6f, false);
-        this.setCreativeTab(TurtleGun.turtleTab);
+        //this.setCreativeTab(TurtleGun.turtleTab);
         this.setUnlocalizedName(ModLibs.MOD_ID.toLowerCase() + ".meat");
-        this.setTextureName(ModLibs.MOD_ID.toLowerCase() + ":turtleMeat");
+        //this.setTextureName(ModLibs.MOD_ID.toLowerCase() + ":turtleMeat");
     }
 
     @Override
@@ -29,9 +29,11 @@ public class ItemTurtleMeat extends ItemFood {
             if (!player.capabilities.isCreativeMode)
                 stack.stackSize--;
             world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
-            world.playSoundAtEntity(player, "random.fuse", 1.0F, 0.5F);
-            if (!world.isRemote)
-                world.spawnEntityInWorld(new EntityTurtleMeat(world, player));
+            if (!world.isRemote) {
+                EntityTurtleMeat meat = new EntityTurtleMeat(world, player);
+                world.spawnEntityInWorld(meat);
+                world.playSoundAtEntity(meat, "random.fuse", 1.0F, 0.5F);
+            }
             return stack;
         }
         return super.onItemRightClick(stack, world, player);

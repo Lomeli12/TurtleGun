@@ -6,6 +6,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -18,9 +20,8 @@ public class ItemTurtleGun extends Item {
         super();
         this.setUnlocalizedName(ModLibs.MOD_ID.toLowerCase() + ".gun");
         this.setMaxStackSize(1);
+        this.setMaxDamage(ModLibs.GUN_COOLDOWN);
         this.setFull3D();
-        this.setTextureName(ModLibs.MOD_ID.toLowerCase() + ":turtleGun");
-
     }
 
     @Override
@@ -66,12 +67,12 @@ public class ItemTurtleGun extends Item {
     }
 
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
             if (stack.getItemDamage() == 0)
                 return true;
         }
-        return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+        return super.onItemUse(stack, playerIn, world, pos, side, hitX, hitY, hitZ);
     }
 
     @Override
@@ -80,13 +81,13 @@ public class ItemTurtleGun extends Item {
     }
 
     @Override
-    public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
+    public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, EntityPlayer player) {
         return true;
     }
 
     @Override
     public EnumAction getItemUseAction(ItemStack p_77661_1_) {
-        return EnumAction.bow;
+        return EnumAction.BOW;
     }
 
     @Override

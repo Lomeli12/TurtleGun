@@ -6,24 +6,17 @@ import net.minecraft.util.StatCollector;
 
 import net.minecraftforge.common.config.Configuration;
 
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.lomeli.lomlib.util.SimpleConfig;
 
-import net.lomeli.turtlegun.TurtleGun;
 import net.lomeli.turtlegun.lib.ModLibs;
 
-public class ConfigHandler {
-    private Configuration config;
-
+public class ConfigHandler extends SimpleConfig {
     public ConfigHandler(File file) {
-        this.config = new Configuration(file);
+        super(ModLibs.MOD_ID, new Configuration(file));
     }
 
-    public Configuration getConfig() {
-        return config;
-    }
-
-    public void updateConfig() {
+    @Override
+    public void loadConfig() {
         String cat = Configuration.CATEGORY_GENERAL;
 
         ModLibs.GUN_COOLDOWN = setGetInt(cat, "gunCoolDown", ModLibs.GUN_COOLDOWN, 10, Integer.MAX_VALUE, "config.turtlegun.cooldown");
@@ -47,11 +40,5 @@ public class ConfigHandler {
 
     private boolean setGetBool(String cat, String tag, boolean baseValue, String comment) {
         return config.getBoolean(tag, cat, baseValue, StatCollector.translateToLocal(comment));
-    }
-
-    @SubscribeEvent
-    public void onConfigChange(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-        if (eventArgs.modID.equalsIgnoreCase(ModLibs.MOD_ID.toLowerCase()))
-            TurtleGun.configHandler.updateConfig();
     }
 }

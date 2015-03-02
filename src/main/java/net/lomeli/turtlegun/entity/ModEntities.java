@@ -1,31 +1,23 @@
 package net.lomeli.turtlegun.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
 
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
-import cpw.mods.fml.common.registry.EntityRegistry;
+import net.lomeli.lomlib.util.entity.EntityUtil;
 
 import net.lomeli.turtlegun.TurtleGun;
 import net.lomeli.turtlegun.lib.ModLibs;
 
 public class ModEntities {
     public static void loadEntities() {
-        registerEntity(EntityTurtle.class, "turtlegun.turtle", 0x91671D, 894731);
-        registerEntity(EntityAggressiveTurtle.class, "turtlegun.Angryturtle", 0x91671D, 0xFF0000);
-        EntityRegistry.registerModEntity(EntityTurtleMeat.class, "turtlegun.turtleBomb", EntityRegistry.findGlobalUniqueEntityId(), TurtleGun.instance, 64, 1, true);
-        addOverWorldSpawn(EntityTurtle.class, ModLibs.SPAWN_RATE, ModLibs.PACK_SIZE_MIN, ModLibs.PACK_SIZE_MAX, EnumCreatureType.creature, BiomeDictionary.Type.BEACH, BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.OCEAN, BiomeDictionary.Type.RIVER, BiomeDictionary.Type.SWAMP, BiomeDictionary.Type.WATER, BiomeDictionary.Type.WET);
-    }
-
-    private static void registerEntity(Class<? extends Entity> entityClass, String entityName, int bkEggColor, int fgEggColor) {
-        int entityID = EntityRegistry.findGlobalUniqueEntityId();
-
-        EntityRegistry.registerGlobalEntityID(entityClass, entityName, entityID);
-        if (bkEggColor != 99999 && fgEggColor != 99999)
-            EntityList.entityEggs.put(Integer.valueOf(entityID), new EntityList.EntityEggInfo(entityID, bkEggColor, fgEggColor));
+        int i = 0;
+        EntityUtil.registerEntity(EntityTurtle.class, "turtlegun.turtle", TurtleGun.instance, 0x91671D, 894731, i++);
+        EntityUtil.registerEntity(EntityAggressiveTurtle.class, "turtlegun.Angryturtle", TurtleGun.instance, 0x91671D, 0xFF0000, i++);
+        EntityUtil.registerEntity(EntityTurtleMeat.class, "turtlegun.turtleBomb", TurtleGun.instance, 0, 0, i++, false);
+        addOverWorldSpawn(EntityTurtle.class, ModLibs.SPAWN_RATE, ModLibs.PACK_SIZE_MIN, ModLibs.PACK_SIZE_MAX, EnumCreatureType.CREATURE, BiomeDictionary.Type.BEACH, BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.OCEAN, BiomeDictionary.Type.RIVER, BiomeDictionary.Type.SWAMP, BiomeDictionary.Type.WATER, BiomeDictionary.Type.WET);
     }
 
     private static void addOverWorldSpawn(Class<? extends EntityLiving> entityClass, int spawnprob, int min, int max, EnumCreatureType type, BiomeDictionary.Type... biomeTypes) {

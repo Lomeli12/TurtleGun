@@ -20,6 +20,7 @@ damage.turtle=%s was bitten by §f
 damage.turtle.genetic=an Aggressive Turtle.
 # '%1$s will be the owner's name, '%2$s' will be the turtle's name (if it has one)
 damage.turtle.summoned=%1$s's %2$s.
+damage.turtle.fma=It's a terrible day for rain...
 
 update.turtlegun.message=An update for Turtle Gun is up for download! Check it out:
 update.turtlegun.old=Installed Version:

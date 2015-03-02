@@ -23,12 +23,12 @@ public class AggressiveTurtleDamage extends DamageSource {
     }
 
     @Override
-    public IChatComponent func_151519_b(EntityLivingBase target) {
-        String base = String.format(translate("damage.turtle"), target.getCommandSenderName());
+    public IChatComponent getDeathMessage(EntityLivingBase target) {
+        String base = String.format(translate("damage.turtle"), target.getName());
         if (turtle.getSummoner() == null)
-            base += turtle.hasCustomNameTag() ? turtle.getCustomNameTag() : translate("damage.turtle.genetic");
+            base += turtle.hasCustomName() ? turtle.getCustomNameTag() : translate("damage.turtle.genetic");
         else
-            base += String.format(translate("damage.turtle.summoned"), turtle.getSummoner().getCommandSenderName(), turtle.hasCustomNameTag() ? turtle.getCustomNameTag() : translate("entity.turtlegun.Angryturtle.name"));
+            base += String.format(translate("damage.turtle.summoned"), turtle.getSummoner().getName(), turtle.hasCustomName() ? turtle.getCustomNameTag() : translate("entity.turtlegun.Angryturtle.name"));
         return new ChatComponentText(base);
     }
 

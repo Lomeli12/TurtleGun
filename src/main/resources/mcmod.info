@@ -9,6 +9,6 @@
   "updateUrl": "",
   "authorList": ["Lomeli12"],
   "screenshots": [],
-  "dependencies": []
+  "parent": "LomLib"
 }
 ]

@@ -1,6 +1,5 @@
 package net.lomeli.turtlegun.entity;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -10,7 +9,12 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+
+import net.lomeli.lomlib.util.entity.EntityUtil;
+import net.lomeli.lomlib.util.entity.ItemCustomEgg;
 
 import net.lomeli.turtlegun.item.ModItems;
 import net.lomeli.turtlegun.lib.ModLibs;
@@ -20,6 +24,7 @@ public class EntityTurtle extends EntityAnimal {
     public EntityTurtle(World world) {
         super(world);
         this.setSize(0.5F, 0.4F);
+
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
         this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
@@ -27,11 +32,6 @@ public class EntityTurtle extends EntityAnimal {
         this.tasks.addTask(4, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(6, new EntityAILookIdle(this));
-    }
-
-    @Override
-    public boolean isAIEnabled() {
-        return true;
     }
 
     @Override
@@ -67,6 +67,8 @@ public class EntityTurtle extends EntityAnimal {
         super.onUpdate();
 
         if (!this.worldObj.isRemote) {
+            if (this.isRiding() && this.ridingEntity.isSneaking())
+                this.dismountEntity(this.ridingEntity);
             if (isGoingToExplode()) {
                 if (willBounce() && (this.isCollided || this.onGround)) {
                     this.motionX = (this.rand.nextFloat() * Math.sin(this.rand.nextFloat())) * (this.rand.nextInt(2) == 0 ? 1.25 : -1.25);
@@ -126,8 +128,10 @@ public class EntityTurtle extends EntityAnimal {
         return ModItems.turtleShell;
     }
 
-    protected void dropRareDrop(int p_70600_1_) {
-        if ((this.rand.nextInt(1000) + 1) <= ModLibs.GUN_DROP_RATE)
+    @Override
+    public void onDeath(DamageSource cause) {
+        super.onDeath(cause);
+        if ((this.rand.nextInt(1000) + 1) <= ModLibs.GUN_DROP_RATE && !worldObj.isRemote)
             this.entityDropItem(new ItemStack(ModItems.turtleGun, 1, ModLibs.GUN_COOLDOWN), 1f);
     }
 
@@ -138,7 +142,7 @@ public class EntityTurtle extends EntityAnimal {
 
     @Override
     public boolean isInWater() {
-        return this.worldObj.handleMaterialAcceleration(this.boundingBox.expand(0.0D, -0.6000000238418579D, 0.0D), Material.water, this);
+        return super.isInWater();
     }
 
     @Override
@@ -165,5 +169,42 @@ public class EntityTurtle extends EntityAnimal {
     @Override
     public boolean isBreedingItem(ItemStack stack) {
         return stack != null && stack.getItem() != null && (stack.getItem() == Items.carrot || stack.getItem() == Items.wheat_seeds);
+    }
+
+    @Override
+    public boolean interact(EntityPlayer player) {
+        if (!worldObj.isRemote && player != null) {
+            ItemStack hand = player.getCurrentEquippedItem();
+            if (hand != null && hand.getItem() == ItemCustomEgg.customEgg) {
+                EntityAgeable baby = this.createChild(this);
+                if (baby != null) {
+                    baby.setGrowingAge(-24000);
+                    baby.setLocationAndAngles(this.posX, this.posY, this.posZ, 0.0F, 0.0F);
+                    this.worldObj.spawnEntityInWorld(baby);
+
+                    if (hand.hasDisplayName())
+                        baby.setCustomNameTag(hand.getDisplayName());
+
+                    if (!player.capabilities.isCreativeMode) {
+                        --hand.stackSize;
+
+                        if (hand.stackSize <= 0)
+                            player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                    }
+                    return true;
+                }
+            }
+            if (!player.isSneaking() && player.riddenByEntity == null && (hand == null || hand.getItem() == null))
+                this.mountEntity(player);
+        }
+        return super.interact(player);
+    }
+
+    @Override
+    public ItemStack getPickedResult(MovingObjectPosition target) {
+        ItemStack stack = EntityUtil.getEntitySpawnEgg(this.getClass());
+        if (stack != null && stack.getItem() != null)
+            return stack;
+        return super.getPickedResult(target);
     }
 }

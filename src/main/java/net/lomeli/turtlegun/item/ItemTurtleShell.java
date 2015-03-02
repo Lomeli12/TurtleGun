@@ -7,8 +7,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import net.lomeli.turtlegun.TurtleGun;
 import net.lomeli.turtlegun.lib.ModLibs;
@@ -18,7 +18,6 @@ public class ItemTurtleShell extends Item {
         super();
         this.setCreativeTab(TurtleGun.turtleTab);
         this.setUnlocalizedName(ModLibs.MOD_ID.toLowerCase() + ".shell");
-        this.setTextureName(ModLibs.MOD_ID.toLowerCase() + ":turtleShell");
     }
 
     @Override

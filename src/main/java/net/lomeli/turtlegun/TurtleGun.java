@@ -2,18 +2,17 @@ package net.lomeli.turtlegun;
 
 import java.io.File;
 
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-
 import net.lomeli.lomlib.util.LogHelper;
-
+import net.lomeli.lomlib.core.version.VersionChecker;
 import net.lomeli.turtlegun.core.CreativeTurtle;
 import net.lomeli.turtlegun.core.Proxy;
 import net.lomeli.turtlegun.core.handler.ConfigHandler;
-import net.lomeli.turtlegun.core.handler.VersionChecker;
 import net.lomeli.turtlegun.lib.ModLibs;
+
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(modid = ModLibs.MOD_ID, name = ModLibs.MOD_NAME, version = ModLibs.VERSION, dependencies = "required-after:LomLib;", guiFactory = "net.lomeli.turtlegun.core.TurtleFactory")
 public class TurtleGun {
@@ -34,7 +33,7 @@ public class TurtleGun {
         modelsFolder = new File(event.getModConfigurationDirectory().getParent(), "/" + ModLibs.MOD_ID);
         configHandler = new ConfigHandler(event.getSuggestedConfigurationFile());
         logger = new LogHelper(ModLibs.MOD_NAME);
-        versionChecker = new VersionChecker();
+        versionChecker = new VersionChecker(ModLibs.UPDATE_JSON, ModLibs.MOD_ID, ModLibs.MOD_NAME, ModLibs.MAJOR, ModLibs.MINOR, ModLibs.REVISION);
         proxy.preInit();
     }
 
