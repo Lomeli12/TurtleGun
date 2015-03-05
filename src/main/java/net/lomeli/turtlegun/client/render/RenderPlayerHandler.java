@@ -44,7 +44,6 @@ public class RenderPlayerHandler {
             ItemStack droppedItem = event.entityItem.getEntityItem();
             if (droppedItem != null && droppedItem.getItem() != null && droppedItem.getItem() == ModItems.turtleGun) {
                 if (activate) {
-                    System.out.println("Hi");
                     gunInHand = false;
                     RenderUtils.setPlayerUseCount(player, 0);
                 }
