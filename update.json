@@ -1,8 +1,8 @@
 {
-    "major" : 1,
+    "major" : 2,
     "minor" : 0,
     "revision" : 0,
-    "downloadURL" : "",
-    "direct" : true,
-    "changeLog" : ""
+    "downloadURL" : "http://minecraft.curseforge.com/mc-mods/224109-turtle-gun",
+    "direct" : false,
+    "changeLog" : "Updated to 1.8. More easter eggs and stuff as well!"
 }
