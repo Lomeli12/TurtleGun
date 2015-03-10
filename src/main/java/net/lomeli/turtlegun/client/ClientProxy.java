@@ -1,6 +1,7 @@
 package net.lomeli.turtlegun.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -33,7 +34,7 @@ public class ClientProxy extends Proxy {
     public void init() {
         super.init();
 
-        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(ModItems.turtleGun, new BasicItemMesh("turtleGun:turtleGun"));
+        registerModel(ModItems.turtleGun, new BasicItemMesh("turtleGun:turtleGun"));
         registerModel(ModItems.turtleShell, 0, "turtleGun:turtleShell");
         registerModel(ModItems.turtleMeat, 0, "turtleGun:turtleMeat");
         registerModel(ModItems.gunParts, 0, "turtleGun:turtleGunPart");
@@ -59,5 +60,9 @@ public class ClientProxy extends Proxy {
 
     private void registerModel(Item item, int metaData, String name) {
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, metaData, new ModelResourceLocation(name, "inventory"));
+    }
+
+    private void registerModel(Item item, ItemMeshDefinition mesh) {
+        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, mesh);
     }
 }
