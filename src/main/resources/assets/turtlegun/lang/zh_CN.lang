@@ -8,7 +8,6 @@ item.turtlegun.gunParts.1.name=扳机
 item.turtlegun.gunParts.2.name=枪筒
 
 entity.turtlegun.turtle.name=乌龟
-entity.turtlegun.Angryturtle.name=激进龟
 
 update.turtlegun.message=乌龟爆破枪模组可以更新至最新版本! 下载地址:
 update.turtlegun.old=目前版本:

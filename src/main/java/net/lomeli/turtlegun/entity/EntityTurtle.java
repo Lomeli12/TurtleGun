@@ -10,11 +10,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-import net.lomeli.lomlib.util.entity.EntityUtil;
-import net.lomeli.lomlib.util.entity.ItemCustomEgg;
+import net.lomeli.lomlib.util.NBTUtil;
 
 import net.lomeli.turtlegun.item.ModItems;
 import net.lomeli.turtlegun.lib.ModLibs;
@@ -62,7 +60,7 @@ public class EntityTurtle extends EntityAnimal {
             if (this.isRiding() && this.ridingEntity.isSneaking())
                 this.dismountEntity(this.ridingEntity);
             if (isGoingToExplode()) {
-                if (willBounce() && (this.isCollided || this.onGround)) {
+                if (bouncy() && (this.isCollided || this.onGround)) {
                     this.motionX = (this.rand.nextFloat() * Math.sin(this.rand.nextFloat())) * (this.rand.nextInt(2) == 0 ? 1.25 : -1.25);
                     this.motionY = this.rand.nextFloat() * 1.5;
                     this.motionZ = (this.rand.nextFloat() * Math.cos(this.rand.nextFloat())) * (this.rand.nextInt(2) == 0 ? 1.25 : -1.25);
@@ -70,7 +68,7 @@ public class EntityTurtle extends EntityAnimal {
                 this.fallDistance = 0f;
                 if (this.worldObj.getWorldTime() % 20 == 0) {
                     if (incrementTimer() >= ModLibs.TURTLE_COUNTDOWN) {
-                        boolean flag = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
+                        boolean flag = this.worldObj.getGameRules().getBoolean("mobGriefing");
                         this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 3, flag);
                         this.setDead();
                     }
@@ -107,11 +105,11 @@ public class EntityTurtle extends EntityAnimal {
         this.dataWatcher.updateObject(17, new Byte((byte) (bool ? 1 : 0)));
     }
 
-    public boolean willBounce() {
+    public boolean bouncy() {
         return this.dataWatcher.getWatchableObjectByte(19) > 0;
     }
 
-    public void setWillBounce(boolean b) {
+    public void setBouncy(boolean b) {
         this.dataWatcher.updateObject(19, new Byte((byte) (b ? 1 : 0)));
     }
 
@@ -123,8 +121,11 @@ public class EntityTurtle extends EntityAnimal {
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        if ((this.rand.nextInt(1000) + 1) <= ModLibs.GUN_DROP_RATE && !worldObj.isRemote)
-            this.entityDropItem(new ItemStack(ModItems.turtleGun, 1, ModLibs.GUN_COOLDOWN), 1f);
+        if (this.rand.nextInt(1000) < ModLibs.GUN_DROP_RATE && !worldObj.isRemote) {
+            ItemStack gun = new ItemStack(ModItems.turtleGun);
+            NBTUtil.setInteger(gun, "gunCoolDown", ModLibs.GUN_COOLDOWN);
+            this.entityDropItem(gun, 1f);
+        }
     }
 
     @Override
@@ -147,7 +148,7 @@ public class EntityTurtle extends EntityAnimal {
         super.writeEntityToNBT(tagCompound);
         tagCompound.setBoolean("willExplode", isGoingToExplode());
         tagCompound.setInteger("explosionTimer", getTime());
-        tagCompound.setBoolean("bouncy", willBounce());
+        tagCompound.setBoolean("bouncy", bouncy());
     }
 
     @Override
@@ -155,7 +156,7 @@ public class EntityTurtle extends EntityAnimal {
         super.readEntityFromNBT(tagCompound);
         setTime(tagCompound.getInteger("willExplode"));
         setState(tagCompound.getBoolean("explosionTimer"));
-        setWillBounce(tagCompound.getBoolean("bouncy"));
+        setBouncy(tagCompound.getBoolean("bouncy"));
     }
 
     @Override
@@ -167,7 +168,7 @@ public class EntityTurtle extends EntityAnimal {
     public boolean interact(EntityPlayer player) {
         if (!worldObj.isRemote && player != null) {
             ItemStack hand = player.getCurrentEquippedItem();
-            if (hand != null && hand.getItem() == ItemCustomEgg.customEgg) {
+            if (hand != null && hand.getItem() == Items.spawn_egg) {
                 EntityAgeable baby = this.createChild(this);
                 if (baby != null) {
                     baby.setGrowingAge(-24000);
@@ -190,13 +191,5 @@ public class EntityTurtle extends EntityAnimal {
                 this.mountEntity(player);
         }
         return super.interact(player);
-    }
-
-    @Override
-    public ItemStack getPickedResult(MovingObjectPosition target) {
-        ItemStack stack = EntityUtil.getEntitySpawnEgg(this.getClass());
-        if (stack != null && stack.getItem() != null)
-            return stack;
-        return super.getPickedResult(target);
     }
 }

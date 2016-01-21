@@ -99,5 +99,4 @@ public class ModelTurtle extends ModelBase {
         this.leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         this.leg3.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
     }
-
 }

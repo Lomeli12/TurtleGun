@@ -110,7 +110,7 @@ public class ModelGun extends ModelBase {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.shape4.render(f5);
         this.shape7.render(f5);
         this.shape16.render(f5);
@@ -133,7 +133,7 @@ public class ModelGun extends ModelBase {
         this.shape17.render(f5);
         this.shape13.render(f5);
     }
-    
+
     public void render(float f5) {
         this.shape4.render(f5);
         this.shape7.render(f5);

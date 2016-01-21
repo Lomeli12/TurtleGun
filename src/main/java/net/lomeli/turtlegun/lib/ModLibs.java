@@ -1,5 +1,8 @@
 package net.lomeli.turtlegun.lib;
 
+import net.lomeli.lomlib.core.config.annotations.ConfigBoolean;
+import net.lomeli.lomlib.core.config.annotations.ConfigInt;
+
 public class ModLibs {
     public static final String MOD_ID = "turtlegun";
     public static final String MOD_NAME = "Turtle Gun";
@@ -12,12 +15,20 @@ public class ModLibs {
 
     public static final String UPDATE_JSON = "https://raw.githubusercontent.com/Lomeli12/TurtleGun/master/update.json";
 
-    public static int GUN_COOLDOWN = 20;
-    public static int TURTLE_COUNTDOWN = 7;
-    public static boolean ALLOW_NATURAL_SPAWN = true;
-    public static int SPAWN_RATE = 15;
-    public static int PACK_SIZE_MIN = 1;
-    public static int PACK_SIZE_MAX = 7;
-    public static int GUN_DROP_RATE = 35;
-    public static int TURTLE_BOMB_SPAWN = 4;
+    @ConfigInt(defaultValue = 20, nameOverride = "gunCoolDown")
+    public static int GUN_COOLDOWN;
+    @ConfigInt(defaultValue = 7, nameOverride = "turtleCountDown")
+    public static int TURTLE_COUNTDOWN;
+    @ConfigBoolean(defaultValue = true, nameOverride = "allowSpawn")
+    public static boolean ALLOW_NATURAL_SPAWN;
+    @ConfigInt(defaultValue = 15, nameOverride = "spawnRate")
+    public static int SPAWN_RATE;
+    @ConfigInt(defaultValue = 1, nameOverride = "packSizeMin")
+    public static int PACK_SIZE_MIN;
+    @ConfigInt(defaultValue = 7, nameOverride = "packSizeMax")
+    public static int PACK_SIZE_MAX;
+    @ConfigInt(defaultValue = 10, nameOverride = "gunDropRate")
+    public static int GUN_DROP_RATE;
+    @ConfigBoolean(defaultValue = true, nameOverride = "checkForUpdates")
+    public static boolean CHECK_FOR_UPDATES;
 }

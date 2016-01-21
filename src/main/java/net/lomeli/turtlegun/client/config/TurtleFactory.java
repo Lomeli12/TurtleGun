@@ -1,4 +1,4 @@
-package net.lomeli.turtlegun.core;
+package net.lomeli.turtlegun.client.config;
 
 import java.util.Set;
 

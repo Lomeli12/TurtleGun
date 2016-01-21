@@ -20,7 +20,7 @@ apply plugin: 'forge'
 repositories {
     maven {
         name = 'Lomeli Repo'
-        url = "http://lomeli12.net/maven/"
+        url = "http://maven.lomeli12.net/"
     }
 }
 
@@ -46,9 +46,9 @@ archivesBaseName = "$modName"
 version = "$releaseVersion"
 
 minecraft {
-    version = "$mcVersion-$forgeVersion" // grab latest forge
-    runDir = "eclipse"
-    mappings = "snapshot_20141130"
+    version = "$mcVersion-$mcfVersion" // grab latest forge
+    runDir = "run"
+    mappings = "$mcpMapping"
 }
 
 processResources {

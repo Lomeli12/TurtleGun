@@ -1,26 +1,18 @@
 itemGroup.turtlegun.tab=Turtle Gun
 
 item.turtlegun.gun.name=Turtle Gun
+item.turtlegun.gun.sub=§5§oCreative Model§r
+item.turtlegun.gun.empty=Empty
+item.turtlegun.gun.reloading=Reloading
 item.turtlegun.shell.name=Turtle Shell
 item.turtlegun.shell.subtext=Hah, get it, a turtle §oSHELL§r.
-item.turtlegun.meat.name=Turtle Meat
-item.turtlegun.meat.subtext_p1=Right-click while sneaking to throw.
-item.turtlegun.meat.subtext_p2=Will attract aggressive turtles.
-item.turtlegun.meat.subtext_p3=Do NOT throw when alone!
 item.turtlegun.gunParts.0.name=Stock
 item.turtlegun.gunParts.1.name=Trigger
 item.turtlegun.gunParts.2.name=Barrel
 
 entity.turtlegun.turtle.name=Turtle
-entity.turtlegun.Angryturtle.name=Aggressive Turtle
-entity.turtlegun.turtleMeat.name=Turtle Meat
 
-# The '§f' is just so IntelliJ would stop getting rid of the empty space at the end.
-damage.turtle=%s was bitten by §f
-damage.turtle.genetic=an Aggressive Turtle.
-# '%1$s will be the owner's name, '%2$s' will be the turtle's name (if it has one)
-damage.turtle.summoned=%1$s's %2$s.
-damage.turtle.fma=It's a terrible day for rain...
+damage.turtlegun.fma=§oIt's a terrible day for rain...
 
 config.turtlegun.cooldown=Cooldown time (in seconds) between each shot.
 config.turtlegun.timer=How much time (in seconds) will pass until a turtle explodes.
@@ -29,4 +21,3 @@ config.turtlegun.spawnRate=Rate at which turtle(s) will spawn.
 config.turtlegun.packSizeMin=Minimum amount of turtles to spawn in a pack.
 config.turtlegun.packSizeMax=Maximum amount of turtles to spawn in a pack.
 config.turtlegun.gunDropRate=Chances a turtle will drop a turtle gun on death.
-config.turtlegun.turtleBombSpawn=Number of aggressive turtles that will spawn from a turtle bomb.

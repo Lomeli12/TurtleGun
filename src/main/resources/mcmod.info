@@ -6,9 +6,6 @@
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "http://www.lomeli12.net/",
-  "updateUrl": "",
-  "authorList": ["Lomeli12"],
-  "screenshots": [],
-  "parent": "LomLib"
+  "authorList": ["Lomeli12"]
 }
 ]
