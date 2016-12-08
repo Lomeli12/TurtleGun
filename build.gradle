@@ -1,54 +1,29 @@
 buildscript {
     repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+        maven { url = "http://maven.lomeli12.net/" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
-
-apply plugin: 'forge'
-
-repositories {
-    maven {
-        name = 'Lomeli Repo'
-        url = "http://maven.lomeli12.net/"
-    }
-}
-
-def loadProperties(String sourceFileName) {
-    def config = new Properties()
-        def propFile = new File(sourceFileName)
-            if (propFile.canRead()) {
-                config.load(new FileInputStream(propFile))
-                    for (Map.Entry property in config) {
-                        ext[property.key] = property.value;
-                    }
-            }
-}
-
-loadProperties 'build.properties'
+apply plugin: 'net.minecraftforge.gradle.forge'
 
 dependencies {
-    compile "net.lomeli:LomLib:$lomlibVersion:dev"
+    compile "net.lomeli:LomLib:${lomlibVersion}:dev"
 }
 
-group = "$modGroup"
-archivesBaseName = "$modName"
-version = "$releaseVersion"
+group = "${modGroup}"
+archivesBaseName = "${modName}"
+version = "${releaseVersion}"
+sourceCompatibility = "${targetJDK}"
+targetCompatibility = "${targetJDK}"
 
 minecraft {
-    version = "$mcVersion-$mcfVersion" // grab latest forge
+    version = "${mcVersion}-${mcfVersion}" // grab latest forge
     runDir = "run"
-    mappings = "$mcpMapping"
+    mappings = "${mcpMapping}"
 }
 
 processResources {
@@ -65,6 +40,6 @@ processResources {
 }
 
 jar {
-	appendix = "$mcVersion"
+	appendix = "${mcVersion}"
     classifier = "universal"
 }

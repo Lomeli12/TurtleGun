@@ -10,6 +10,7 @@ import net.lomeli.turtlegun.lib.ModLibs;
 
 public class Proxy {
     public void preInit() {
+        TurtleGun.logger.logInfo("Pre Init");
         if (ModLibs.CHECK_FOR_UPDATES)
             new Thread(TurtleGun.versionChecker).start();
         TurtleGun.modConfig.loadConfig();
@@ -18,6 +19,7 @@ public class Proxy {
     }
 
     public void init() {
+        TurtleGun.logger.logInfo("Init");
         ModEntities.loadEntities();
         MinecraftForge.EVENT_BUS.register(new EntityHandler());
     }

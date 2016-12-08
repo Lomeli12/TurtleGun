@@ -6,6 +6,8 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
+import net.lomeli.lomlib.util.entity.EntityUtil;
+
 import net.lomeli.turtlegun.TurtleGun;
 import net.lomeli.turtlegun.lib.ModLibs;
 

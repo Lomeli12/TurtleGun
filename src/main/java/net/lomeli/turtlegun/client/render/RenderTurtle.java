@@ -4,23 +4,27 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
+
+import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 import net.lomeli.turtlegun.client.model.ModelTurtle;
 import net.lomeli.turtlegun.entity.EntityTurtle;
 import net.lomeli.turtlegun.lib.ModLibs;
 
 public class RenderTurtle extends RenderLiving {
-    private final ResourceLocation turtleTexture = new ResourceLocation(ModLibs.MOD_ID + ":models/turtle.png");
-    private final ResourceLocation penguinTurtle = new ResourceLocation(ModLibs.MOD_ID + ":models/penguin.png");
-    private final ResourceLocation jadedTurtle = new ResourceLocation(ModLibs.MOD_ID + ":models/jaded.png");
+    private final ResourceLocation turtleTexture = new ResourceLocation(ModLibs.MOD_ID + ":textures/models/turtle.png");
+    private final ResourceLocation penguinTurtle = new ResourceLocation(ModLibs.MOD_ID + ":textures/models/penguin.png");
+    private final ResourceLocation jadedTurtle = new ResourceLocation(ModLibs.MOD_ID + ":textures/models/jaded.png");
 
-    public RenderTurtle() {
-        super(Minecraft.getMinecraft().getRenderManager(), new ModelTurtle(), 1f);
+    public RenderTurtle(RenderManager manager) {
+        super(manager, new ModelTurtle(), 1f);
         shadowSize = 0.3f;
     }
 
@@ -58,5 +62,14 @@ public class RenderTurtle extends RenderLiving {
                 return jadedTurtle;
         }
         return turtleTexture;
+    }
+
+    public enum TurtleRenderFactory implements IRenderFactory<EntityTurtle> {
+        INSTANCE();
+
+        @Override
+        public Render<? super EntityTurtle> createRenderFor(RenderManager manager) {
+            return new RenderTurtle(manager);
+        }
     }
 }

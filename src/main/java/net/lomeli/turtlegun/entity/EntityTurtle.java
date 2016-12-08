@@ -1,5 +1,7 @@
 package net.lomeli.turtlegun.entity;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -9,15 +11,22 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
-import net.lomeli.lomlib.util.NBTUtil;
+import net.lomeli.lomlib.util.nbt.NBTUtil;
 
 import net.lomeli.turtlegun.item.ModItems;
 import net.lomeli.turtlegun.lib.ModLibs;
 
 public class EntityTurtle extends EntityAnimal {
+    private static final DataParameter<Integer> TIME = EntityDataManager.createKey(EntityTurtle.class, DataSerializers.VARINT);
+    private static final DataParameter<Boolean> EXPLOSIVE = EntityDataManager.createKey(EntityTurtle.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> BOUNCY = EntityDataManager.createKey(EntityTurtle.class, DataSerializers.BOOLEAN);
 
     public EntityTurtle(World world) {
         super(world);
@@ -34,8 +43,8 @@ public class EntityTurtle extends EntityAnimal {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(15.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.15D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.15D);
     }
 
     @Override
@@ -46,10 +55,9 @@ public class EntityTurtle extends EntityAnimal {
     @Override
     protected void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-        this.dataWatcher.addObject(17, new Byte((byte) 0));
-        this.dataWatcher.addObject(18, new Integer(0));
-        this.dataWatcher.addObject(19, new Byte((byte) 0));
+        this.dataManager.register(EXPLOSIVE, false);
+        this.dataManager.register(TIME, 0);
+        this.dataManager.register(BOUNCY, false);
     }
 
     @Override
@@ -57,8 +65,8 @@ public class EntityTurtle extends EntityAnimal {
         super.onUpdate();
 
         if (!this.worldObj.isRemote) {
-            if (this.isRiding() && this.ridingEntity.isSneaking())
-                this.dismountEntity(this.ridingEntity);
+            if (this.isRiding() && this.getRidingEntity().isSneaking())
+                this.dismountEntity(this.getRidingEntity());
             if (isGoingToExplode()) {
                 if (bouncy() && (this.isCollided || this.onGround)) {
                     this.motionX = (this.rand.nextFloat() * Math.sin(this.rand.nextFloat())) * (this.rand.nextInt(2) == 0 ? 1.25 : -1.25);
@@ -81,11 +89,11 @@ public class EntityTurtle extends EntityAnimal {
     }
 
     public int getTime() {
-        return this.dataWatcher.getWatchableObjectInt(18);
+        return this.dataManager.get(TIME);
     }
 
     public void setTime(int time) {
-        this.dataWatcher.updateObject(18, time);
+        this.dataManager.set(TIME, time);
     }
 
     public int incrementTimer() {
@@ -94,7 +102,7 @@ public class EntityTurtle extends EntityAnimal {
     }
 
     public boolean isGoingToExplode() {
-        return this.dataWatcher.getWatchableObjectByte(17) > 0;
+        return this.dataManager.get(EXPLOSIVE);
     }
 
     public void startExplosionCountDown() {
@@ -102,15 +110,15 @@ public class EntityTurtle extends EntityAnimal {
     }
 
     public void setState(boolean bool) {
-        this.dataWatcher.updateObject(17, new Byte((byte) (bool ? 1 : 0)));
+        this.dataManager.set(EXPLOSIVE, bool);
     }
 
     public boolean bouncy() {
-        return this.dataWatcher.getWatchableObjectByte(19) > 0;
+        return this.dataManager.get(BOUNCY);
     }
 
-    public void setBouncy(boolean b) {
-        this.dataWatcher.updateObject(19, new Byte((byte) (b ? 1 : 0)));
+    public void setBouncy(boolean bool) {
+        this.dataManager.set(BOUNCY, bool);
     }
 
     @Override
@@ -123,7 +131,7 @@ public class EntityTurtle extends EntityAnimal {
         super.onDeath(cause);
         if (this.rand.nextInt(1000) < ModLibs.GUN_DROP_RATE && !worldObj.isRemote) {
             ItemStack gun = new ItemStack(ModItems.turtleGun);
-            NBTUtil.setInteger(gun, "gunCoolDown", ModLibs.GUN_COOLDOWN);
+            NBTUtil.INSTANCE.setInteger(gun, "gunCoolDown", ModLibs.GUN_COOLDOWN);
             this.entityDropItem(gun, 1f);
         }
     }
@@ -161,35 +169,34 @@ public class EntityTurtle extends EntityAnimal {
 
     @Override
     public boolean isBreedingItem(ItemStack stack) {
-        return stack != null && stack.getItem() != null && (stack.getItem() == Items.carrot || stack.getItem() == Items.wheat_seeds);
+        return stack != null && stack.getItem() != null && (stack.getItem() == Items.CARROT || stack.getItem() == Items.WHEAT_SEEDS);
     }
 
     @Override
-    public boolean interact(EntityPlayer player) {
+    public boolean processInteract(EntityPlayer player, EnumHand hand, @Nullable ItemStack stack) {
         if (!worldObj.isRemote && player != null) {
-            ItemStack hand = player.getCurrentEquippedItem();
-            if (hand != null && hand.getItem() == Items.spawn_egg) {
+            if (stack != null && stack.getItem() == Items.SPAWN_EGG) {
                 EntityAgeable baby = this.createChild(this);
                 if (baby != null) {
                     baby.setGrowingAge(-24000);
                     baby.setLocationAndAngles(this.posX, this.posY, this.posZ, 0.0F, 0.0F);
                     this.worldObj.spawnEntityInWorld(baby);
 
-                    if (hand.hasDisplayName())
-                        baby.setCustomNameTag(hand.getDisplayName());
+                    if (stack.hasDisplayName())
+                        baby.setCustomNameTag(stack.getDisplayName());
 
                     if (!player.capabilities.isCreativeMode) {
-                        --hand.stackSize;
+                        --stack.stackSize;
 
-                        if (hand.stackSize <= 0)
+                        if (stack.stackSize <= 0)
                             player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
                     }
                     return true;
                 }
             }
-            if (!player.isSneaking() && player.riddenByEntity == null && (hand == null || hand.getItem() == null))
-                this.mountEntity(player);
+            if (!player.isSneaking() && player.getRidingEntity() == null && (stack == null || stack.getItem() == null))
+                this.startRiding(player);
         }
-        return super.interact(player);
+        return super.processInteract(player, hand, stack);
     }
 }

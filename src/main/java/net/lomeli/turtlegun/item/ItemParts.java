@@ -1,5 +1,7 @@
 package net.lomeli.turtlegun.item;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -9,10 +11,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import net.lomeli.lomlib.client.models.IModelHolder;
+
 import net.lomeli.turtlegun.TurtleGun;
 import net.lomeli.turtlegun.lib.ModLibs;
 
-public class ItemParts extends Item {
+public class ItemParts extends Item implements IModelHolder {
     public ItemParts() {
         super();
         this.setHasSubtypes(true);
@@ -38,5 +42,16 @@ public class ItemParts extends Item {
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         return this.getUnlocalizedName() + "." + stack.getItemDamage();
+    }
+
+    @SideOnly(Side.CLIENT)
+    @NotNull
+    @Override
+    public String[] getVariants() {
+        return new String[] {
+                "turtleGun:turtleGunPart",
+                "turtleGun:turtleGunPart1",
+                "turtleGun:turtleGunPart2"
+        };
     }
 }

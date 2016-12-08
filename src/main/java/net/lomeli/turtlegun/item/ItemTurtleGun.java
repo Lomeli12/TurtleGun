@@ -2,33 +2,36 @@ package net.lomeli.turtlegun.item;
 
 import java.util.List;
 
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import net.lomeli.lomlib.client.models.IModelHolder;
 import net.lomeli.lomlib.client.render.item.IItemRenderer;
 import net.lomeli.lomlib.client.render.item.ISpecialRender;
-import net.lomeli.lomlib.util.NBTUtil;
+import net.lomeli.lomlib.util.LangUtil;
+import net.lomeli.lomlib.util.client.SoundUtil;
+import net.lomeli.lomlib.util.items.ItemUtil;
+import net.lomeli.lomlib.util.nbt.NBTUtil;
 
 import net.lomeli.turtlegun.TurtleGun;
+import net.lomeli.turtlegun.client.handler.SoundHandler;
 import net.lomeli.turtlegun.client.render.RenderGunModel;
 import net.lomeli.turtlegun.core.handler.EntityHandler;
 import net.lomeli.turtlegun.entity.EntityTurtle;
 import net.lomeli.turtlegun.lib.ModLibs;
 
-public class ItemTurtleGun extends Item implements ISpecialRender {
+public class ItemTurtleGun extends Item implements ISpecialRender, IModelHolder {
     @SideOnly(Side.CLIENT)
     private RenderGunModel renderer;
 
@@ -46,9 +49,9 @@ public class ItemTurtleGun extends Item implements ISpecialRender {
             if (entity != null) {
                 if (entity instanceof EntityPlayer) {
                     EntityPlayer player = (EntityPlayer) entity;
-                    if (gunCoolDown == ModLibs.GUN_COOLDOWN && (player.inventory.hasItem(ModItems.turtleShell) || player.capabilities.isCreativeMode)) {
+                    if (gunCoolDown == ModLibs.GUN_COOLDOWN && (ItemUtil.INSTANCE.hasItem(player.inventory, ModItems.turtleShell) || player.capabilities.isCreativeMode)) {
                         if (!player.capabilities.isCreativeMode)
-                            player.inventory.consumeInventoryItem(ModItems.turtleShell);
+                            ItemUtil.INSTANCE.consumeItem(player.inventory, ModItems.turtleShell);
                         setGunCoolDown(stack, gunCoolDown - 1);
                     }
                     if (gunCoolDown < ModLibs.GUN_COOLDOWN && gunCoolDown > 0 && world.getWorldTime() % 10 == 0)
@@ -62,11 +65,11 @@ public class ItemTurtleGun extends Item implements ISpecialRender {
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-        if (!world.isRemote) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+        if (!world.isRemote && hand == EnumHand.MAIN_HAND && player.getHeldItemOffhand() == null) {
             if (getGunCooldown(stack) <= 0) {
-                setGunCoolDown(stack, NBTUtil.getBoolean(stack, "isCreative") ? 1 : ModLibs.GUN_COOLDOWN);
-                Vec3 look = player.getLookVec();
+                setGunCoolDown(stack, NBTUtil.INSTANCE.getBoolean(stack, "isCreative") ? 1 : ModLibs.GUN_COOLDOWN);
+                Vec3d look = player.getLookVec();
                 EntityTurtle turtle = new EntityTurtle(world);
                 turtle.setSprinting(true);
                 turtle.setPosition(player.posX + look.xCoord, player.posY + look.yCoord + (player.getEyeHeight() / 2), player.posZ + look.zCoord);
@@ -75,22 +78,22 @@ public class ItemTurtleGun extends Item implements ISpecialRender {
                 turtle.motionZ = look.zCoord * 3;
                 turtle.setBouncy(player.isSneaking());
                 turtle.startExplosionCountDown();
-                if (NBTUtil.getBoolean(stack, "isCreative"))
+                if (NBTUtil.INSTANCE.getBoolean(stack, "isCreative"))
                     turtle.setCustomNameTag(EntityHandler.turtleNames[world.rand.nextInt(EntityHandler.turtleNames.length)]);
                 world.spawnEntityInWorld(turtle);
-                world.playSoundAtEntity(player, ModLibs.MOD_ID + ":turtleSong", 1f, 1f);
+                SoundUtil.INSTANCE.playSoundAtEntity(player, SoundHandler.TURTLE_SONG, SoundCategory.PLAYERS, 1f, 1f);
             }
         }
-        return stack;
+        return super.onItemRightClick(stack, world, player, hand);
     }
 
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
             if (getGunCooldown(stack) <= 0)
-                return true;
+                return EnumActionResult.FAIL;
         }
-        return super.onItemUse(stack, playerIn, world, pos, side, hitX, hitY, hitZ);
+        return super.onItemUse(stack, player, world, pos, hand, facing, hitX, hitY, hitZ);
     }
 
     @Override
@@ -98,7 +101,7 @@ public class ItemTurtleGun extends Item implements ISpecialRender {
         subItems.add(new ItemStack(itemIn));
         ItemStack creativeGun = new ItemStack(itemIn);
 
-        NBTUtil.setBoolean(creativeGun, "isCreative", true);
+        NBTUtil.INSTANCE.setBoolean(creativeGun, "isCreative", true);
         subItems.add(creativeGun);
     }
 
@@ -106,11 +109,12 @@ public class ItemTurtleGun extends Item implements ISpecialRender {
     @Override
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
         super.addInformation(stack, playerIn, tooltip, advanced);
-        if (NBTUtil.getBoolean(stack, "isCreative"))
-            tooltip.add(StatCollector.translateToLocal("item.turtlegun.gun.sub"));
+        tooltip.add(LangUtil.INSTANCE.translate("item.turtlegun.gun.hands"));
+        if (NBTUtil.INSTANCE.getBoolean(stack, "isCreative"))
+            tooltip.add(LangUtil.INSTANCE.translate("item.turtlegun.gun.sub"));
         int cool = getGunCooldown(stack);
         if (cool > 0)
-            tooltip.add(StatCollector.translateToLocal(cool == ModLibs.GUN_COOLDOWN ? "item.turtlegun.gun.empty" : "item.turtlegun.gun.reloading"));
+            tooltip.add(LangUtil.INSTANCE.translate(cool == ModLibs.GUN_COOLDOWN ? "item.turtlegun.gun.empty" : "item.turtlegun.gun.reloading"));
     }
 
     @Override
@@ -134,11 +138,11 @@ public class ItemTurtleGun extends Item implements ISpecialRender {
     }
 
     private int getGunCooldown(ItemStack stack) {
-        return NBTUtil.getInt(stack, "gunCoolDown");
+        return NBTUtil.INSTANCE.getInt(stack, "gunCoolDown");
     }
 
     private void setGunCoolDown(ItemStack stack, int cooldown) {
-        NBTUtil.setInteger(stack, "gunCoolDown", cooldown);
+        NBTUtil.INSTANCE.setInteger(stack, "gunCoolDown", cooldown);
     }
 
     @Override
@@ -148,32 +152,42 @@ public class ItemTurtleGun extends Item implements ISpecialRender {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining) {
-        this.renderer.lastPlayer = player;
-        return super.getModel(stack, player, useRemaining);
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
     public boolean hasEffect(ItemStack stack) {
-        return NBTUtil.getBoolean(stack, "isCreative");
+        return NBTUtil.INSTANCE.getBoolean(stack, "isCreative");
     }
 
     @Override
     public CreativeTabs[] getCreativeTabs() {
-        return new CreativeTabs[]{CreativeTabs.tabCombat, TurtleGun.turtleTab};
+        return new CreativeTabs[]{CreativeTabs.COMBAT, TurtleGun.turtleTab};
+    }
+
+    @Override
+    public int getMaxItemUseDuration(ItemStack stack) {
+        return 1;
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public IItemRenderer getRenderer() {
-        if (renderer == null)
-            renderer = new RenderGunModel();
+    public boolean hasSpecialRenderer(ItemStack stack) {
+        return true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public IItemRenderer getSpecialRenderer(ItemStack stack) {
+        if (renderer == null) renderer = new RenderGunModel();
         return renderer;
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
-    public String resourceName() {
-        return "turtleGun:turtleGun";
+    public boolean canItemSwing(ItemStack stack) {
+        return false;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public String[] getVariants() {
+        return new String[]{"turtleGun:turtleGun"};
     }
 }

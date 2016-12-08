@@ -6,7 +6,7 @@ import net.lomeli.lomlib.core.config.annotations.ConfigInt;
 public class ModLibs {
     public static final String MOD_ID = "turtlegun";
     public static final String MOD_NAME = "Turtle Gun";
-    public static final int MAJOR = 2, MINOR = 0, REVISION = 0;
+    public static final int MAJOR = 3, MINOR = 0, REVISION = 0;
     public static final String VERSION = MAJOR + "." + MINOR + "." + REVISION;
 
     public static final String PACKAGE_PATH = "net.lomeli.turtlegun.";

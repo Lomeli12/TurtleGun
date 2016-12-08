@@ -10,29 +10,27 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
+import net.lomeli.lomlib.util.items.ItemUtil;
+
 public class ModItems {
     public static Item turtleGun, turtleShell, gunParts;
 
     public static void loadItems() {
         turtleGun = new ItemTurtleGun();
-        registerItem(turtleGun, "turtleGun");
+        ItemUtil.INSTANCE.registerItem(turtleGun, "turtleGun");
 
         turtleShell = new ItemTurtleShell();
-        registerItem(turtleShell, "turtleShell");
+        ItemUtil.INSTANCE.registerItem(turtleShell, "turtleShell");
 
         gunParts = new ItemParts();
-        registerItem(gunParts, "turtleGunPart");
+        ItemUtil.INSTANCE.registerItem(gunParts, "turtleGunPart");
 
         OreDictionary.registerOre("shellTurtle", turtleShell);
 
         addShaped(gunParts, "  L", "ISW", "LW ", 'W', "plankWood", 'L', "logWood", 'S', "stickWood", 'I', "ingotIron");
-        addShaped(new ItemStack(gunParts, 1, 1), "IGI", "IRI", "TLT", 'I', "ingotIron", 'R', "dustRedstone", 'T', "shellTurtle", 'G', Items.gunpowder, 'L', Blocks.lever);
-        addShaped(new ItemStack(gunParts, 1, 2), "III", "  D", "LLI", 'I', "ingotIron", 'L', Items.leather, 'D', Blocks.dispenser);
+        addShaped(new ItemStack(gunParts, 1, 1), "IGI", "IRI", "TLT", 'I', "ingotIron", 'R', "dustRedstone", 'T', "shellTurtle", 'G', Items.GUNPOWDER, 'L', Blocks.LEVER);
+        addShaped(new ItemStack(gunParts, 1, 2), "III", "  D", "LLI", 'I', "ingotIron", 'L', Items.LEATHER, 'D', Blocks.DISPENSER);
         GameRegistry.addRecipe(new ShapelessOreRecipe(turtleGun, "shellTurtle", new ItemStack(gunParts, 1, 0), new ItemStack(gunParts, 1, 1), new ItemStack(gunParts, 1, 2)));
-    }
-
-    private static void registerItem(Item item, String id) {
-        GameRegistry.registerItem(item, id);
     }
 
     private static void addShaped(Object stack, Object... items) {

@@ -2,6 +2,7 @@ itemGroup.turtlegun.tab=Turtle Gun
 
 item.turtlegun.gun.name=Turtle Gun
 item.turtlegun.gun.sub=§5§oCreative Model§r
+item.turtlegun.gun.hands=Requires two hands!
 item.turtlegun.gun.empty=Empty
 item.turtlegun.gun.reloading=Reloading
 item.turtlegun.shell.name=Turtle Shell
